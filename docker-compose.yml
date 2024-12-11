@@ -1,0 +1,57 @@
+version: '3.3'  # Specify the version of Docker Compose
+
+services:
+
+  api:
+    build:
+      context: ./backendapi
+      dockerfile: './Dockerfile'
+    restart: always
+    command: sh -c "./entrypoint.sh && exec python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backendapi:/app/backendapi
+
+    ports:
+      - "8000:8000"
+    env_file:
+      - 'backendapi/.env'
+    stdin_open: true
+    tty: true
+
+    environment:
+      DEBUG: 'true'
+
+    depends_on:
+      - db
+      
+  db:
+    image: postgres:14.2-alpine
+    restart: always
+    env_file:
+      - backendapi/.env
+    ports:
+      - "15432:5432"
+    stdin_open: true
+    tty: true
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data/"
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: './Dockerfile'
+    restart: always
+    environment:
+      - WATCHPACK_POLLING=true
+
+    stdin_open: true
+    tty: true
+    command: sh -c "npm start"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - ./app/node_modules
+
+volumes:
+  postgres_data:

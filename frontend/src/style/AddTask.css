@@ -1,0 +1,61 @@
+/* src/AddTaskPopup.css */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.popup-content h1 {
+    margin-bottom: 20px;
+    font-size: 19px;
+    font-weight: 500;
+    color:rgb(82, 82, 82)
+}
+
+.addtask0 .form-group {
+    margin-bottom: 15px;
+}
+
+.addtask0 label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+.addtask0 input[type="text"],
+.addtask0 input[type="date"],
+.addtask0 textarea,
+.addtask0 select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.taskbutton {
+    margin-right: 10px;
+    padding: 5px 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.taskbutton:hover {
+    background-color: #0056b3;
+}
