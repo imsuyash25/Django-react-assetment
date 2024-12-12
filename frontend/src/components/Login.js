@@ -11,10 +11,11 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const inputStyle ="rounded px-4 py-3 w-full mt-1 bg-white text-gray-900 border border-gray-200 focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-100"
     const {user, setUser} = useUser()
+    cosnt [formerror, setFormError] = useState()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
+      	setFormError('')
         Axios.post(`http://127.0.0.1:8000/api/v1/login/`, 
         {'username':username, 'password':password},
         {
@@ -32,7 +33,9 @@ export default function Login() {
             navigate('/'); 
         }
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+		setFormError(error.response.data.error)
+		console.log(error)})
        
     };
 
@@ -43,12 +46,12 @@ export default function Login() {
           <form onSubmit={handleSubmit}>
           <label className="text-gray-500 block mt-3">User Name
           <input type="text" id="username" name="username" 
-            onChange={(e)=>setName(e.target.value)}
+            onChange={(e)=>setName(e.target.value)} required
             placeholder="username" autofocus={true} className={inputStyle}/>
           </label>
           <label className="text-gray-500 block mt-3">Password
           <input type="password" id="password" name="password" 
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e)=>setPassword(e.target.value)} required
             placeholder="••••••••••" className={inputStyle}/>
           </label>
           <button 
@@ -59,6 +62,7 @@ export default function Login() {
             <button onClick={()=>navigate('/register')} className='btn btn-md'>Register</button>
           </span>
           </form>
+	  {formerror && <h3 className="error text-danger mt-2"> {formerror} </h3>}
         </div>
       </div>
     )
